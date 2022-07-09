@@ -1,13 +1,22 @@
+using System;
 using UnityEngine;
 
 public class AudioManager : MonoBehaviour
 {
     private AudioSource audioSource;
-    public Target raycaster;
     
+    private Target raycaster;
+    [HideInInspector]
+    public bool canPlayAudio;
+
+    private void Start()
+    {
+        raycaster = Camera.main.transform.GetComponent<Target>();
+    }
+
     void Update()
     {
-        if (raycaster.isButtonDown)
+        if (raycaster.isButtonDown && canPlayAudio)
         {
             if (!audioSource.isPlaying)
                 audioSource.Play();
@@ -19,5 +28,12 @@ public class AudioManager : MonoBehaviour
     public void PlayAudioSourceFrom(Transform a)
     {
         audioSource = a.GetComponent<AudioSource>();
+        canPlayAudio = true;
     }
+
+    public void Stop()
+    {
+        canPlayAudio = false;
+    }
+    
 }

@@ -27,12 +27,13 @@ public class CraneMoveScript : ControlledObject
     public Wire tubeWire;
     public Wire controllerWire;
 
-    [Header("Other")] public AudioManager audioManager;
+   private AudioManager audioManager;
 
 
     private void Awake()
     {
         MovingObjectController.OnControlElementActivated.AddListener(GetCommand);
+        audioManager = transform.GetComponent<AudioManager>();
     }
 
     public override void GetCommand(MovingObjectController.CommandType direction)
@@ -77,6 +78,8 @@ public class CraneMoveScript : ControlledObject
             controllerWire.Stretch();
             audioManager.PlayAudioSourceFrom(transform);
         }
+        else
+            audioManager.Stop();
     }
 
     void MoveBack()
@@ -87,6 +90,9 @@ public class CraneMoveScript : ControlledObject
             controllerWire.Stretch();
             audioManager.PlayAudioSourceFrom(transform);
         }
+        else
+            audioManager.Stop();
+    
     }
 
     void MoveLeft()
@@ -97,6 +103,9 @@ public class CraneMoveScript : ControlledObject
             controllerWire.Stretch();
             audioManager.PlayAudioSourceFrom(Crane);
         }
+        else
+            audioManager.Stop();
+    
     }
 
     void MoveRight()
@@ -107,6 +116,9 @@ public class CraneMoveScript : ControlledObject
             controllerWire.Stretch();
             audioManager.PlayAudioSourceFrom(Crane);
         }
+        else
+            audioManager.Stop();
+       
     }
 
     void MoveUp()
@@ -118,6 +130,9 @@ public class CraneMoveScript : ControlledObject
             tubeWire.Stretch();
             audioManager.PlayAudioSourceFrom(Tube);
         }
+        else
+            audioManager.Stop();
+       
     }
 
     void MoveDown()
@@ -129,5 +144,8 @@ public class CraneMoveScript : ControlledObject
             tubeWire.Stretch();
             audioManager.PlayAudioSourceFrom(Tube);
         }
+        else
+            audioManager.Stop();
+       
     }
 }
