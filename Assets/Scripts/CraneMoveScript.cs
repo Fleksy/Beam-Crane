@@ -28,7 +28,8 @@ public class CraneMoveScript : ControlledObject
     public Wire controllerWire;
 
    private AudioManager audioManager;
-
+   [HideInInspector]
+   public bool canPlayAudio;
 
     private void Awake()
     {
@@ -36,9 +37,9 @@ public class CraneMoveScript : ControlledObject
         audioManager = transform.GetComponent<AudioManager>();
     }
 
-    public override void GetCommand(MovingObjectController.CommandType direction)
+    public override void GetCommand(MovingObjectController.CommandType command)
     {
-        switch (direction)
+        switch (command)
         {
             case MovingObjectController.CommandType.Forward:
                 MoveForward();
@@ -65,7 +66,7 @@ public class CraneMoveScript : ControlledObject
                 break;
 
             default:
-                throw new ArgumentException($"Unknown behaviour: {direction}");
+                throw new ArgumentException($"Unknown behaviour: {command}");
         }
     }
 
@@ -76,10 +77,10 @@ public class CraneMoveScript : ControlledObject
         {
             transform.Translate(Vector3.forward * forwardSpeed * Time.fixedDeltaTime);
             controllerWire.Stretch();
-            audioManager.PlayAudioSourceFrom(transform);
+            canPlayAudio = true;
         }
         else
-            audioManager.Stop();
+            canPlayAudio = false;
     }
 
     void MoveBack()
@@ -88,11 +89,11 @@ public class CraneMoveScript : ControlledObject
         {
             transform.Translate(Vector3.back * backSpeed * Time.fixedDeltaTime);
             controllerWire.Stretch();
-            audioManager.PlayAudioSourceFrom(transform);
+            canPlayAudio = true;
         }
         else
-            audioManager.Stop();
-    
+            canPlayAudio = false;
+
     }
 
     void MoveLeft()
@@ -101,11 +102,11 @@ public class CraneMoveScript : ControlledObject
         {
             Crane.Translate(Vector3.left * leftSpeed * Time.fixedDeltaTime);
             controllerWire.Stretch();
-            audioManager.PlayAudioSourceFrom(Crane);
+            canPlayAudio = true;
         }
         else
-            audioManager.Stop();
-    
+            canPlayAudio = false;
+
     }
 
     void MoveRight()
@@ -114,11 +115,11 @@ public class CraneMoveScript : ControlledObject
         {
             Crane.Translate(Vector3.right * rightSpeed * Time.fixedDeltaTime);
             controllerWire.Stretch();
-            audioManager.PlayAudioSourceFrom(Crane);
+            canPlayAudio = true;
         }
         else
-            audioManager.Stop();
-       
+            canPlayAudio = false;
+
     }
 
     void MoveUp()
@@ -128,11 +129,11 @@ public class CraneMoveScript : ControlledObject
             Hook.Translate(Vector3.up * upSpeed * Time.fixedDeltaTime);
             Tube.Rotate(Vector3.left * leftSpeed);
             tubeWire.Stretch();
-            audioManager.PlayAudioSourceFrom(Tube);
+            canPlayAudio = true;
         }
         else
-            audioManager.Stop();
-       
+            canPlayAudio = false;
+
     }
 
     void MoveDown()
@@ -142,10 +143,10 @@ public class CraneMoveScript : ControlledObject
             Hook.Translate(Vector3.down * downSpeed * Time.fixedDeltaTime);
             Tube.Rotate(Vector3.right * rightSpeed);
             tubeWire.Stretch();
-            audioManager.PlayAudioSourceFrom(Tube);
+            canPlayAudio = true;
         }
         else
-            audioManager.Stop();
-       
+            canPlayAudio = false;
+
     }
 }

@@ -2506,6 +2506,7 @@ MonoBehaviour:
   Tube: {fileID: 1211773499613450131}
   tubeWire: {fileID: 7380459228922886957}
   controllerWire: {fileID: 5506301204285244097}
+  canPlayAudio: 0
 --- !u!82 &3266226799995768263
 AudioSource:
   m_ObjectHideFlags: 0
@@ -2614,7 +2615,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e534b7f135a742f408a46120e622bdad, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  canPlayAudio: 0
+  raycaster: {fileID: 963194230}
 --- !u!64 &3335169873403612409
 MeshCollider:
   m_ObjectHideFlags: 0

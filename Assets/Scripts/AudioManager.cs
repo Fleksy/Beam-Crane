@@ -1,22 +1,25 @@
 using System;
 using UnityEngine;
 
+[RequireComponent(typeof(CraneMoveScript))]
 public class AudioManager : MonoBehaviour
 {
     private AudioSource audioSource;
-    
-    private Target raycaster;
-    [HideInInspector]
-    public bool canPlayAudio;
+
+    public  Target raycaster;
+
+    private CraneMoveScript craneMover;
+
 
     private void Start()
     {
-        raycaster = Camera.main.transform.GetComponent<Target>();
+        craneMover = transform.GetComponent<CraneMoveScript>();
+        MovingObjectController.OnControlElementActivated.AddListener(PlayAudioSource);
     }
 
     void Update()
     {
-        if (raycaster.isButtonDown && canPlayAudio)
+        if (raycaster.isButtonDown && craneMover.canPlayAudio)
         {
             if (!audioSource.isPlaying)
                 audioSource.Play();
@@ -24,16 +27,26 @@ public class AudioManager : MonoBehaviour
         else if (audioSource != null)
             audioSource.Stop();
     }
-    
-    public void PlayAudioSourceFrom(Transform a)
-    {
-        audioSource = a.GetComponent<AudioSource>();
-        canPlayAudio = true;
-    }
 
-    public void Stop()
+     void PlayAudioSource(MovingObjectController.CommandType command)
     {
-        canPlayAudio = false;
+        if (command == MovingObjectController.CommandType.Back || command == MovingObjectController.CommandType.Forward)
+        {
+            audioSource = craneMover.transform.GetComponent<AudioSource>();
+        }
+        else if (command == MovingObjectController.CommandType.Left ||
+                 command == MovingObjectController.CommandType.Right)
+        {
+            audioSource = craneMover.Crane.GetComponent<AudioSource>();
+        }
+        else if (command == MovingObjectController.CommandType.Up ||
+                 command == MovingObjectController.CommandType.Down)
+        {
+            audioSource = craneMover.Tube.GetComponent<AudioSource>();
+        }
+        else
+        {
+            throw new ArgumentException($"Unknown behaviour: {command}");
+        }
     }
-    
 }
